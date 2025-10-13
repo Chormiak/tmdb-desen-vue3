@@ -2,7 +2,6 @@ import axios, { type AxiosInstance } from 'axios';
 
 const api: AxiosInstance = axios.create({
   baseURL: 'https://api.themoviedb.org/3/',
-  method: 'GET',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -11,7 +10,8 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-api.defaults.headers.common['Authorization'] = import.meta.env.TMDB_API_KEY;
+api.defaults.headers.common['Authorization'] = 'Bearer ' + import.meta.env.VITE_TMDB_KEY;
+api.defaults.params = { language: 'pt-BR' };
 
 api.interceptors.response.use(
   function (response) {
