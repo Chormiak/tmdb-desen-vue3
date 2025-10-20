@@ -4,6 +4,7 @@ const api: AxiosInstance = axios.create({
   baseURL: 'https://api.themoviedb.org/3/',
   headers: {
     'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
   validateStatus(status) {
     return status >= 200 && status < 300;
