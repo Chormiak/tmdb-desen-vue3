@@ -11,7 +11,9 @@ import type {
   GetTrendingTv,
 } from '@/types/tv.types';
 
-type ReturnRequest<Obj> = Promise<{ result: true; data: Obj } | { result: false }>;
+type ReturnRequest<Obj extends Record<string, any>> = Promise<
+  { result: true; data: Obj } | { result: false }
+>;
 
 const useTvStore = defineStore('tv', function () {
   const genres: Ref<GetListOfGenresTv['genres']> = ref([]);
