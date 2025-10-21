@@ -1,11 +1,7 @@
 <script setup lang="ts">
+import { isLoading } from '@/plugins/loading';
+
 import LoadingIcon from '../icons/LoadingIcon.vue';
-
-interface Props {
-  isLoading: boolean;
-}
-
-const props = defineProps<Props>();
 </script>
 
 <template>
