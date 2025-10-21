@@ -4,10 +4,14 @@ import type { Ref } from 'vue';
 
 import api from '@/plugins/axios';
 
+import getGenreName from './utils/getGenreName';
+
+type ReturnRequest = Promise<{ result: true; data: Record<string, any> } | { result: false }>;
+
 const useMovieStore = defineStore('movie', () => {
   const genres: Ref<{ id: number; name: string }[]> = ref([]);
 
-  async function getDiscoverList(page: `${number}` = '1') {
+  async function getDiscoverList(page: `${number}` = '1'): ReturnRequest {
     return api
       .get('/discover/movie', { params: { page: page, sort_by: 'popularity.desc' } })
       .then((response) => {
@@ -17,7 +21,7 @@ const useMovieStore = defineStore('movie', () => {
       .catch(() => ({ result: false }));
   }
 
-  async function getListOfGenres() {
+  async function getListOfGenres(): ReturnRequest {
     return api
       .get('/genre/movie/list')
       .then((response) => {
@@ -31,18 +35,20 @@ const useMovieStore = defineStore('movie', () => {
       .catch(() => ({ result: false }));
   }
 
-  async function getOneOfGenreById(id: number) {
+  async function getOneOfGenreById(id: number): ReturnRequest {
     return api
-      .get('/genre/movie/' + id)
+      .get('/discover/movie', { params: { with_genres: id } })
       .then((response) => {
-        if (response.data['original_title'].length === 0) throw new Error();
+        if (!response.data['page']) throw new Error();
 
         return { result: true, data: response.data };
       })
       .catch(() => ({ result: false }));
   }
 
-  function getGenreName(id: number): string | undefined {
-    return genres.value.find((genre) => genre.id === id)?.name;
-  }
+  const genreName = (id: number) => getGenreName(id, genres.value);
+
+  return { getDiscoverList, getListOfGenres, getOneOfGenreById, genreName };
 });
+
+export default useMovieStore;

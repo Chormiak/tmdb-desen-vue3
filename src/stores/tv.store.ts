@@ -4,6 +4,8 @@ import type { Ref, Reactive } from 'vue';
 
 import api from '@/plugins/axios';
 
+import getGenreName from './utils/getGenreName';
+
 import type {
   GetDiscoverTv,
   GetListOfGenresTv,
@@ -17,15 +19,6 @@ type ReturnRequest<Obj extends Record<string, any>> = Promise<
 
 const useTvStore = defineStore('tv', function () {
   const genres: Ref<GetListOfGenresTv['genres']> = ref([]);
-
-  // const current: Reactive<{
-  //   genre: {
-  //     id: number;
-  //     items: Record<string, any>[];
-  //   } | null;
-  // }> = {
-  //   genre: null,
-  // };
 
   async function getDiscoverList(page: `${number}` = '1'): ReturnRequest<GetDiscoverTv> {
     return api
@@ -53,9 +46,9 @@ const useTvStore = defineStore('tv', function () {
 
   async function getOneOfGenreById(id: number) {
     return api
-      .get('/genre/tv/' + id)
+      .get('/discover/tv', { params: { with_genres: id } })
       .then((response) => {
-        if (response.data['original_title'].length === 0) throw new Error();
+        if (!response.data['page']) throw new Error();
 
         return { result: true, data: response.data };
       })
@@ -110,9 +103,9 @@ const useTvStore = defineStore('tv', function () {
       .catch(() => ({ result: false }));
   }
 
-  function getGenreName(id: number): string | undefined {
-    return genres.value.find((genre) => genre.id === id)?.name;
-  }
+  const genreName = (id: number) => getGenreName(id, genres.value);
+
+  return { getDiscoverList, getListOfGenres, getOneOfGenreById, getSearch, getTrending, genreName };
 });
 
 export default useTvStore;
