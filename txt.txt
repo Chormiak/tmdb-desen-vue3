@@ -1,0 +1,29 @@
+curl -i POST https://id.twitch.tv/oauth2/token \
+-d client_id="ikjd33sl2wjuj74yclwlquwh85dd6p" \
+-d client_secret="hidqoea3jickbaasm31g10paavd463" \
+-d grant_type="client_credentials"
+
+curl -X POST https://id.twitch.tv/oauth2/token \
+  -d "client_id=ikjd33sl2wjuj74yclwlquwh85dd6p" \
+  -d "client_secret=hidqoea3jickbaasm31g10paavd463" \
+  -d "grant_type=client_credentials"
+  
+ 
+curl -X POST https://api.igdb.com/v4/games \
+	-H "Client-ID: ikjd33sl2wjuj74yclwlquwh85dd6p" \
+	-H "Authorization: Bearer ie8r8ozb8wxcad8d9zqwv8m2rou9f4" \
+	-H "Body: fields *;"
+	
+	
+  POST: https://api.igdb.com/v4/games
+Client-ID: abcdefg12345
+Authorization: Bearer access12345token
+Body: "fields *;"
+
+
+VITE_TWITCH_ID = "ikjd33sl2wjuj74yclwlquwh85dd6p"
+VITE_TWITCH_SECRET = "hidqoea3jickbaasm31g10paavd463"
+
+{"access_token":"16ssiem3sfk0oc789o5tmwkk1xewcr","expires_in":4955730,"token_type":"bearer"}
+{"access_token":"ie8r8ozb8wxcad8d9zqwv8m2rou9f4","expires_in":5301790,"token_type":"bearer"}
+
